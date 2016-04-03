@@ -2,5 +2,7 @@
 - penambahan atribut password di tabel mahasiswa
 - pengurangan atribut id_penilaian di tabel assignment
 - penambahan atribut link_jawaban di tabel assignment
+- penambahan table admin(id_admin, password)
+- penambahan proses login admin
 - penambahan proses login dosen
 - penambahan proses login mahasiswa
