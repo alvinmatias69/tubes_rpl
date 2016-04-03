@@ -22,6 +22,7 @@
 			} while($result = $stmt->fetch(PDO::FETCH_ASSOC));
 		}
 	?>
-	<a href="panel_mhs">Kembali ke menu</a>
+	<br>
+	<a href="panel_mhs.php">Kembali ke menu</a>
 </body>
 </html>

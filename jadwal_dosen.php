@@ -8,7 +8,7 @@
 	<h1>Jadwal</h1>
 	<?php
 		include 'database.php';
-		$sql = "select tanggal, id_materi from Jadwal j join Materi m on (id_materi) join Dosen d using (id_dosen) where id_dosen = '" . $_SESSION['id_dosen'] . "';";
+		$sql = "select m.tanggal, j.id_materi from Jadwal j join Materi m using (id_materi) join Dosen d using (id_dosen) where d.id_dosen = '" . $_SESSION['id_dosen'] . "';";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute();
 		$result = $stmt->fetch(PDO::FETCH_ASSOC);

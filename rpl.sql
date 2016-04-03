@@ -50,16 +50,16 @@ create table if not exists Jadwal(
 );
 
 create table if not exists Soal(
-	id_soal varchar(20) not null,
+	id_soal varchar(22) not null,
 	tanggal date default null,
-	link_materi varchar(50) default null,
+	link_soal varchar(50) default null,
 	id_dosen int(10) not null,
 	constraint pk_Soal primary key(id_soal),
 	constraint fk_Soal foreign key(id_dosen) references Dosen(id_dosen)
 );
 
 create table if not exists Assignment(
-	id_assignment varchar(20) not null,
+	id_assignment varchar(22) not null,
 	type varchar(5) default null,
 	tanggal date default null,
 	nilai int(3) default null,

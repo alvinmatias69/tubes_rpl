@@ -14,12 +14,14 @@
 				'link_jawaban'	=> htmlspecialchars($_POST['link_jawaban']),
 				'id_dosen'		=> $_POST['id_dosen'],
 				'type'			=> 'kuis',
-				'tanggal'		=> date('d/m/y'),
+				'tanggal'		=> date('d-m-y'),
 				'id_mhs'		=> $_SESSION['id_mhs']
 			);
 			$sql = "insert into Assignment(id_assignment, type, tanggal, link_jawaban, id_mhs, id_dosen) values ('" . $data['id_assignment'] . "', '" . $data['type'] . "', '" . $data['tanggal'] . "', '" . $data['link_jawaban'] . "', '" . $data['id_mhs'] . "', '" . $data['id_dosen'] . "');";
 			$conn->exec($sql);
 			echo "Data berhasil diinput";
+			$sql = "insert into Kehadiran(tanggal, id_mhs) values ('" . $data['tanggal'] . "', '" . $date['id_mhs'] . "');";
+			$conn->exec($sql);
 		}
 		$sql = "select tanggal, link_materi, id_dosen from Soal where substr(id_soal, 1, 2) = 'as' and id_dosen = (select id_dosen_wali from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "');";
 		$stmt = $conn->prepare($sql);

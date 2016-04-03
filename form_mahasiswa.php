@@ -3,6 +3,7 @@
 <head>
 	<title>Form Mahasiswa</title>
 	<?php
+		include 'cek_login.php';
 		$error = "";
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			include 'database.php';
@@ -16,12 +17,9 @@
 			$sql = "insert into Mahasiswa(id_mhs, nama_mhs, angkatan, id_dosen_wali, password) values ('" . $data['id_mhs'] . "', '" . $data['nama_mhs'] . "', '" . $data['angkatan'] . "', '" . $data['id_dosen_wali'] . "', '" . $data['password'] . "');";
 			try {
 				$conn->exec($sql);
+				$error = "Input sukses";
 			} catch (PDOException $e) {
-				if ($e->getMessage() == "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`rpl`.`Mahasiswa`, CONSTRAINT `fk_Mahasiswa` FOREIGN KEY (`id_dosen_wali`) REFERENCES `Dosen` (`id_dosen`))"){
-					$error = "ID Dosen tidak ada";
-				} else{
-					$error = "ID Mahasiswa sudah ada";
-				}
+				$error = "ID Mahasiswa sudah ada";
 			}
 		}
 		
@@ -35,8 +33,21 @@
 		Password : <input type="password" name="password" required><br>
 		Nama Mahasiswa : <input type="text" name="nama_mhs" required><br>
 		Angkatan : <input type="number" name="angkatan" min="2010" max="3000" required><br>
-		ID Dosen Wali : <input type="text" name="id_dosen" required><br>
-		<input type="submit" value="Input">
+		ID Dosen Wali :
+		<select name="id_dosen">
+		<?php
+			include 'database.php';
+			$sql = "select id_dosen, nama_dosen from Dosen;";
+			$stmt = $conn->prepare($sql);
+			$stmt->execute();
+			while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+				echo "<option value='" . $result['id_dosen'] . "'>(" . $result['id_dosen'] . ")" . $result['nama_dosen'] . "</option>";
+			}
+		?>
+		</select><br>
+		<!-- ID Dosen Wali : <input type="text" name="id_dosen" required><br> -->
+		<input type="submit" value="Input"><br>
+		<a href="panel_admin.php">Kembali ke menu</a>
 	</form>
 </body>
 </html>

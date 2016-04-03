@@ -14,7 +14,7 @@
 	<a href="dosen_assessment.php">periksa hasil assessment</a><br>
 	<a href="list_mahasiswa.php">Daftar mahasiswa</a><br>
 	<a href="list_kehadiran.php">Daftar kehadiran mahasiswa</a><br>
-	<a href="jadwal_dosen">Lihat jadwal</a>
+	<a href="jadwal_dosen.php">Lihat jadwal</a><br>
 	<a href="logout.php">Logout</a>
 </body>
 </html>
