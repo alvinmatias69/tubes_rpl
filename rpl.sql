@@ -70,3 +70,9 @@ create table if not exists Assignment(
 	constraint fk_Assignment_1 foreign key(id_mhs) references Mahasiswa(id_mhs),
 	constraint fk_Assignment_2 foreign key(id_dosen) references Dosen(id_dosen)
 );
+
+create table if not exists Admin(
+	id_admin char(5) not null,
+	password varchar(50) not null,
+	constraint pk_Admin primary key(id_admin)
+);
