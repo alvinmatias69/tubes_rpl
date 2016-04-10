@@ -28,7 +28,7 @@
 </head>
 <body>
 	<h1>Login Mahasiswa</h1>
-	<?php echo $error; ?>
+	<?php echo "coba"; ?>
 	<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
 		ID Mahasiswa : <input type="number" name="id_mhs" required min="1000000000" max="9999999999"><br>
 		Password : <input type="password" name="password" required><br>
