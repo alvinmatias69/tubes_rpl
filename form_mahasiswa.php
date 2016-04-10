@@ -32,19 +32,24 @@
 </head>
 <body style="color: #444">
 	<div class="container">
-		<div class="page-header">
-			<div class="row">
-				<div class="col-md-3">
-					<h1>Panel Admin</h1>
-				</div>
-				<div class="col-md-5"> </div>
-				<div class="col-md-1">
-					<a href="logout.php" class="btn btn-primary" style="float:right;">Logout <span class="glyphicon glyphicon-off"></span></a>
-				</div>	
+		<!-- <div class="page-header"> -->
+			<!-- <div class="row page-header"> -->	
+			<!-- </div> -->
+		<!-- </div> -->
+		<div class="row">
+			<div class="col-md-3">
+				<h1>Panel Admin</h1>
+			</div>
+			<div class="col-md-5"> </div>
+			<div class="col-md-1">
+				<br>
+				<a href="logout.php" class="btn btn-primary" style="float:right;">Logout <span class="glyphicon glyphicon-off"></span></a>
 			</div>
 		</div>
 		<div class="row">
-			
+			<div class="col-md-9">
+				<hr>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-3">
@@ -82,15 +87,23 @@
 			<div class="col-md-5 well well-md">
 				<h2>Input Data Mahasiswa</h2>
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" role="form">
-					<div class="">
+					<div class="form-group">
 						<label for="id_mhs">ID Mahasiswa :</label>
-						<input type="number" placeholder="ID Mahasiswa" class="form-control input-md" name="id_mhs" min="1000000000" max="9999999999" required><br>
+						<input type="number" placeholder="ID Mahasiswa" class="form-control input-md" name="id_mhs" min="1000000000" max="9999999999" required>
+					</div>
+					<div class="form-group">
 						<label for="password">Password :</label>
-						<input type="password" placeholder="Password" class="form-control input-md" name="password" required><br>
+						<input type="password" placeholder="Password" class="form-control input-md" name="password" required>
+					</div>
+					<div class="form-group">
 						<label for="nama_mhs">Nama :</label>
-						<input type="text" placeholder="Nama Mahasiswa" class="form-control input-md" name="nama_mhs" required><br>
+						<input type="text" placeholder="Nama Mahasiswa" class="form-control input-md" name="nama_mhs" required>
+					</div>
+					<div class="form-group">
 						<label for="angkatan">Angkatan :</label>
-						<input type="number" placeholder="Angkatan Mahasiswa" class="form-control input-md" name="angkatan" min="2010" max="3000" required><br>
+						<input type="number" placeholder="Angkatan Mahasiswa" class="form-control input-md" name="angkatan" min="2010" max="3000" required>
+					</div>
+					<div class="form-group">
 						<label for="id_dosen">ID Dosen Wali : </label>
 						<select class="form-control input-md" name="id_dosen">
 						<?php
@@ -102,13 +115,14 @@
 								echo "<option value='" . $result['id_dosen'] . "'>(" . $result['id_dosen'] . ") " . $result['nama_dosen'] . "</option>";
 							}
 						?>
-						</select><br>
-						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Input"><br>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Input">
 					</div>
 				</form>		
 			</div>
 		</div>
-		<!-- <a href="panel_admin.php">Kembali ke menu</a> -->
 	</div>
 </body>
 </html>

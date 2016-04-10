@@ -1,0 +1,66 @@
+body, h1, h3{
+	font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: 700;
+}
+
+.back{
+	text-align: center;
+	background: url(img/bg.jpg) no-repeat center center;
+	background-size: 100% 100%;
+	width: 100%;
+	height: 100vh;
+}
+
+/*.row{
+	position: fixed;
+	top:15%;
+}
+
+.row >h1{
+	font-family: sans-serif;
+	color: #fff;
+	margin-top: 10px;
+	font-size: 38px;
+    font-weight: 100;
+    line-height: 50px;
+}
+
+.row >strong{
+	font-weight: 500;
+}
+*/
+.centered{
+	position: fixed;
+	top: 15%;
+}
+
+.centered >h1{
+	color: white;
+	text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 5em;
+}
+
+.centered >h3{
+	color: white;
+	text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+}
+
+.centered >hr{
+	width: 400px;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.button-front{
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px
+}
+
+.form-top{
+	background: #fff;
+	text-align: left;
+	overflow: hidden;
+	padding: 0 25px 15px 25px;
+}
