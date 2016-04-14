@@ -23,7 +23,7 @@
 			$sql = "insert into Kehadiran(tanggal, id_mhs) values ('" . $data['tanggal'] . "', '" . $date['id_mhs'] . "');";
 			$conn->exec($sql);
 		}
-		$sql = "select tanggal, link_materi, id_dosen from Soal where substr(id_soal, 1, 2) = 'as' and id_dosen = (select id_dosen_wali from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "');";
+		$sql = "select tanggal, link_soal, id_dosen from Soal where substr(id_soal, 1, 2) = 'as' and id_dosen = (select id_dosen_wali from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "');";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute();
 		$result = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -111,8 +111,10 @@
 								if (! $result = $stmt->fetch(PDO::FETCH_ASSOC)) {
 									echo "<option disabled=disabled>Tidak ada data</option>";
 								} else{
-									echo "<option value='" . $result['id_mhs'] . "'>(" . $result['id_mhs'] . ") " . $result['nama_mhs'] . "</option>";
-								} while($result = $stmt->fetch(PDO::FETCH_ASSOC));
+									do{
+										echo "<option value='" . $result['id_mhs'] . "'>(" . $result['id_mhs'] . ") " . $result['nama_mhs'] . "</option>";
+									}while($result = $stmt->fetch(PDO::FETCH_ASSOC));
+								} 
 							?>
 						</select>
 					</div>

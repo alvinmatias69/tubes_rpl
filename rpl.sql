@@ -12,7 +12,7 @@ create table if not exists Mahasiswa(
 	id_dosen_wali int(10) not null,
 	password varchar(50) default null,
 	constraint pk_Mahasiswa primary key(id_mhs),
-	constraint fk_Mahasiswa foreign key(id_dosen_wali) references Dosen(id_dosen)
+	constraint fk_Mahasiswa foreign key(id_dosen_wali) references Dosen(id_dosen) on delete cascade
 );
 
 create table if not exists Nilai(
@@ -22,14 +22,14 @@ create table if not exists Nilai(
 	id_mhs int(10) not null,
 	id_dosen int(10) not null,
 	constraint pk_Nilai primary key(id_penilaian),
-	constraint fk_Nilai_1 foreign key(id_mhs) references Mahasiswa(id_mhs),
-	constraint fk_Nilai_2 foreign key(id_dosen) references Dosen(id_dosen)
+	constraint fk_Nilai_1 foreign key(id_mhs) references Mahasiswa(id_mhs) on delete cascade,
+	constraint fk_Nilai_2 foreign key(id_dosen) references Dosen(id_dosen) on delete cascade
 );
 
 create table if not exists Kehadiran(
 	tanggal date default null,
 	id_mhs int(10) not null,
-	constraint fk_Kehadiran foreign key(id_mhs) references Mahasiswa(id_mhs)
+	constraint fk_Kehadiran foreign key(id_mhs) references Mahasiswa(id_mhs) on delete cascade
 );
 
 create table if not exists Materi(
@@ -38,15 +38,15 @@ create table if not exists Materi(
 	link_materi varchar(50),
 	id_dosen int(10) not null,
 	constraint pk_Materi primary key(id_materi),
-	constraint fk_Materi foreign key(id_dosen) references Dosen(id_dosen)
+	constraint fk_Materi foreign key(id_dosen) references Dosen(id_dosen) on delete cascade
 );
 
 create table if not exists Jadwal(
 	tanggal date default null,
 	id_materi int(10) not null, 
 	id_mhs int(10) not null,
-	constraint fk_Jadwal_1 foreign key(id_materi) references Materi(id_materi),
-	constraint fk_Jadwal_2 foreign key(id_mhs) references Mahasiswa(id_mhs)
+	constraint fk_Jadwal_1 foreign key(id_materi) references Materi(id_materi) on delete cascade,
+	constraint fk_Jadwal_2 foreign key(id_mhs) references Mahasiswa(id_mhs) on delete cascade
 );
 
 create table if not exists Soal(
@@ -55,7 +55,7 @@ create table if not exists Soal(
 	link_soal varchar(50) default null,
 	id_dosen int(10) not null,
 	constraint pk_Soal primary key(id_soal),
-	constraint fk_Soal foreign key(id_dosen) references Dosen(id_dosen)
+	constraint fk_Soal foreign key(id_dosen) references Dosen(id_dosen) on delete cascade
 );
 
 create table if not exists Assignment(
@@ -67,8 +67,8 @@ create table if not exists Assignment(
 	id_mhs int(10) not null,
 	id_dosen int(10) not null,
 	constraint pk_Assignment primary key(id_assignment),
-	constraint fk_Assignment_1 foreign key(id_mhs) references Mahasiswa(id_mhs),
-	constraint fk_Assignment_2 foreign key(id_dosen) references Dosen(id_dosen)
+	constraint fk_Assignment_1 foreign key(id_mhs) references Mahasiswa(id_mhs) on delete cascade,
+	constraint fk_Assignment_2 foreign key(id_dosen) references Dosen(id_dosen) on delete cascade
 );
 
 create table if not exists Admin(

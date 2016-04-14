@@ -15,8 +15,10 @@
 		if (! $result) {
 			echo "Nilai belum ada";
 		} else {
-			echo "Nilai : " . $result['nilai'] . "<br>";
-			echo "Index : " . $result['index'];
+			do{
+				echo "Nilai : " . $result['nilai'] . "<br>";
+				echo "Index : " . $result['index'];
+			}while($result = $stmt->fetch(PDO::FETCH_ASSOC));
 		}
 	?>
 	<a href="panel_mhs.php">Kembali ke menu</a>
