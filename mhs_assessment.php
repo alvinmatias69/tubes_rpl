@@ -43,8 +43,12 @@
 		} else {
 			do{
 				echo $result['tanggal'] . " ";
-				echo $result['link_soal'] . " ";
 	?>
+	<form method="post" action="download.php">
+		<input type="hidden" name="dir" value="<?php echo $result['link_soal'] ?>">
+		<input type="hidden" name="source" value="mhs_tugas.php">
+		<input type="submit" value="Download">
+	</form>
 	<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
 		<input type="file" name="file_jawaban" placeholder="link jawaban" required>
 		<input type="hidden" name="id_assignment" value="<?php echo 'as' . $result['id_dosen'] . $result['tanggal']; ?>">

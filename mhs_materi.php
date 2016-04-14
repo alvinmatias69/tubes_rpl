@@ -18,7 +18,15 @@
 			do{
 				echo $result['id_materi'] . " ";
 				echo $result['tanggal'] . " ";
-				echo $result['link_materi'] . "<br>";
+	?>
+
+	<form method="post" action="download.php">
+		<input type="hidden" name="dir" value="<?php echo $result['link_materi']?>">
+		<input type="hidden" name="source" value="mhs_materi.php">
+		<input type="submit" value="Download">
+	</form>
+
+	<?php
 			} while($result = $stmt->fetch(PDO::FETCH_ASSOC));
 		}
 	?>
