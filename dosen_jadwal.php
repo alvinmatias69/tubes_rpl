@@ -4,10 +4,11 @@
 <head>
     <?php
         include 'cek_login.php';
+        $error = "";
     ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Learning || Mahasiswa</title>
+    <title>E-Learning || Dosen</title>
     <!-- Core CSS - Include with every page -->
     <link href="assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -66,11 +67,11 @@
                                     <strong>
                                     <?php
                                         include 'database.php';
-                                        $query = "select nama_mhs from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "';";
+                                        $query = "select nama_dosen from Dosen where id_dosen = '" . $_SESSION['id_dosen'] . "';";
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
                                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                                        echo $result['nama_mhs'];
+                                        echo $result['nama_dosen'];
                                     ?>
                                     </strong></div>
                                 <div class="user-text-online">
@@ -80,22 +81,37 @@
                         </div>
                         <!--end user image section-->
                     </li>
-                    <li>
-                        <a href="mhs_nilai.php"><i class="fa fa-bar-chart fa-fw"></i>Nilai</a>
-                    </li>
-                    <li>
-                        <a href="mhs_jadwal.php"><i class="fa fa-calendar fa-fw"></i>Jadwal</a>
-                    </li>
                     <li class="selected">
-                        <a href="mhs_materi.php"><i class="fa fa-book fa-fw"></i>Materi</a>
+                        <a href="dosen_jadwal.php"><i class="fa fa-calendar fa-fw"></i>Jadwal</a>
                     </li>
                     <li>
-                        <a href="mhs_assessment.php"><i class="fa fa-tasks fa-fw"></i>Assessment</a>
+                        <a href="#"><i class="fa fa-upload fa-fw"></i>Upload<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+		                    	<a href="dosen_materi.php">Upload Materi</a>
+		                    </li>
+		                    <li>
+		                    	<a href="dosen_soal.php">Upload Soal</a>
+		                    </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="mhs_tugas.php"><i class="fa fa-pencil-square-o fa-fw"></i>Tugas</a>
+                        <a href="#"><i class="fa fa-pencil-square-o fa-fw"></i>Koreksi<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+		                    	<a href="dosen_tugas.php">Koreksi Tugas</a>
+		                    </li>
+		                    <li>
+		                    	<a href="dosen_assessment.php">Koreksi Assessment</a>
+		                    </li>
+                        </ul>
                     </li>
-
+                    <li>
+                    	<a href="list_mahasiswa.php"><i class="fa fa-list-ul fa-fw"></i>List Mahasiswa</a>
+                    </li>
+                    <li>
+                    	<a href="list_kehadiran.php"><i class="fa fa-list-alt fa-fw"></i>Kehadiran Mahasiswa</a>
+                    </li>
                 </ul>
                 <!-- end side-menu -->
             </div>
@@ -107,64 +123,50 @@
             <div class="row">
                 <!-- page header-->
                 <div class="col-lg-12">
-                    <h1 class="page-header">Materi</h1>
+                    <h1 class="page-header">Jadwal</h1>
                 </div>
                  <!-- end page header-->
-            </div>
-            <div class="row">
+                 <div class="row">
                     <!--End Moving Line Chart -->
                 <!-- </div> -->
                 <div class="col-lg-12">
                     <!-- Bar Chart -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Materi
+                            Jadwal Anda
                         </div>
                         <div class="panel-body">
                         	<div class="table-responsive">
-                        		<table class="table table-striped table-bordered table-hover" id="table-materi">
+                        		<table class="table table-striped table-bordered table-hover" id="table-assessment">
                         			<thead>
-                        				<tr>
-                        					<th>Tanggal</th>
-                        					<th>ID Materi</th>
-                        					<th>Download</th>
-                        				</tr>
+                        				<th>Tanggal</th>
+                        				<th>ID Materi</th>
                         			</thead>
                         			<tbody>
                         				<?php
 									        include 'database.php';
-									        $sql = "select * from Materi where id_dosen = ( select id_dosen_wali from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "');";
+									        $sql = "select m.tanggal, j.id_materi from Jadwal j join Materi m using (id_materi) join Dosen d using (id_dosen) where d.id_dosen = '" . $_SESSION['id_dosen'] . "';";
 									        $stmt = $conn->prepare($sql);
 									        $stmt->execute();
 									        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 									        if (! $result) {
-									            echo "<td colspan='3'>Data Kosong";
+									            echo "<td colspan='2'>Data kosong</td>";
 									        } else {
 									            do{
-									                echo "<tr><td>" . $result['tanggal'] . "</td><td>";
-									                echo $result['id_materi'] . "</td>";
-									    ?>
-									    <td>
-										    <form method="post" action="download.php">
-										        <input type="hidden" name="dir" value="<?php echo $result['link_materi']?>">
-										        <input type="hidden" name="source" value="mhs_materi.php">
-										        <button type="submit" class="btn btn-outline btn-primary"><i class="fa fa-download"></i> Download Materi</button>
-										    </form>
-										</td>
-                                        </tr>
-									    <?php
+									                echo "<td>" . $result['tanggal'] . "</td><td>";
+									                echo $result['id_materi'] . "</td></tr>";
 									            } while($result = $stmt->fetch(PDO::FETCH_ASSOC));
 									        }
 									    ?>
-                        			</tbody>                      			
+                        			</tbody>
                         		</table>
                         	</div>
                         </div>
                     </div>
                      <!--End Bar Chart -->
                 </div>
-                
             </div>
+           
         </div>
         <!-- end page-wrapper -->
 

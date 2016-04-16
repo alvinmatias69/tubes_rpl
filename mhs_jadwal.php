@@ -83,10 +83,10 @@
                     <li>
                         <a href="mhs_nilai.php"><i class="fa fa-bar-chart fa-fw"></i>Nilai</a>
                     </li>
-                    <li>
+                    <li class="selected">
                         <a href="mhs_jadwal.php"><i class="fa fa-calendar fa-fw"></i>Jadwal</a>
                     </li>
-                    <li class="selected">
+                    <li>
                         <a href="mhs_materi.php"><i class="fa fa-book fa-fw"></i>Materi</a>
                     </li>
                     <li>
@@ -107,7 +107,7 @@
             <div class="row">
                 <!-- page header-->
                 <div class="col-lg-12">
-                    <h1 class="page-header">Materi</h1>
+                    <h1 class="page-header">Jadwal</h1>
                 </div>
                  <!-- end page header-->
             </div>
@@ -118,47 +118,67 @@
                     <!-- Bar Chart -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Materi
+                            Jadwal Anda
                         </div>
                         <div class="panel-body">
-                        	<div class="table-responsive">
-                        		<table class="table table-striped table-bordered table-hover" id="table-materi">
-                        			<thead>
-                        				<tr>
-                        					<th>Tanggal</th>
-                        					<th>ID Materi</th>
-                        					<th>Download</th>
-                        				</tr>
-                        			</thead>
-                        			<tbody>
-                        				<?php
-									        include 'database.php';
-									        $sql = "select * from Materi where id_dosen = ( select id_dosen_wali from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "');";
-									        $stmt = $conn->prepare($sql);
-									        $stmt->execute();
-									        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-									        if (! $result) {
-									            echo "<td colspan='3'>Data Kosong";
-									        } else {
-									            do{
-									                echo "<tr><td>" . $result['tanggal'] . "</td><td>";
-									                echo $result['id_materi'] . "</td>";
-									    ?>
-									    <td>
-										    <form method="post" action="download.php">
-										        <input type="hidden" name="dir" value="<?php echo $result['link_materi']?>">
-										        <input type="hidden" name="source" value="mhs_materi.php">
-										        <button type="submit" class="btn btn-outline btn-primary"><i class="fa fa-download"></i> Download Materi</button>
-										    </form>
-										</td>
-                                        </tr>
-									    <?php
-									            } while($result = $stmt->fetch(PDO::FETCH_ASSOC));
-									        }
-									    ?>
-                        			</tbody>                      			
-                        		</table>
-                        	</div>
+                        	<h2>Jadwal Materi</h2>
+                           	<div class="table-responsive">
+                           		<table class="table table-striped table-bordered table-hover" id="table-materi">
+                           			<thead>
+                           				<tr>
+                           					<th>Tanggal</th>
+                           					<th>ID Materi</th>
+                           					<th>Nama Dosen</th>	
+                           				</tr>
+                           			</thead>
+                           			<tbody>
+	                           				<?php
+				                                include 'database.php';
+				                                $sql = "select j.tanggal, id_materi, nama_dosen from Jadwal j join Materi m using (id_materi) join Dosen using (id_dosen) where id_dosen = (select id_dosen_wali from Mahasiswa where id_mhs = '" . $_SESSION['id_mhs'] . "');";
+				                                $stmt = $conn->prepare($sql);
+				                                $stmt->execute();
+				                                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+				                                if (! $result) {
+				                                    echo "<td colspan='3'>Data kosong";
+				                                } else {
+				                                    do{
+				                                        echo "<tr><td>" . $result['tanggal'] . "</td><td>";
+				                                        echo $result['id_materi'] . "</td><td>";
+				                                        echo $result['nama_dosen'] . "</td></tr>";
+				                                    } while($result = $stmt->fetch(PDO::FETCH_ASSOC));
+				                                }
+				                            ?>						
+                           			</tbody>
+                           		</table>
+                           	</div>
+                           	<h2>Jadwal Assignment</h2>
+                           	<div class="table-responsive">
+                           		<table class="table table-striped table-bordered table-hover" id="table-assessment">
+                           			<thead>
+                           				<th>Tanggal</th>
+                           				<th>Tipe</th>
+                           				<th>Nama Dosen</th>
+                           			</thead>
+                           			<tbody>
+                           					<?php
+                           						include 'database.php';
+                           						$sql = "select tanggal, type, nama_dosen from Assignment join Dosen using (id_dosen) where id_mhs = '" . $_SESSION['id_mhs'] . "';";
+                           						$stmt = $conn->prepare($sql);
+				                                $stmt->execute();
+				                                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+				                                if (! $result) {
+				                                    echo "<td colspan='3'>Data kosong";
+				                                } else {
+				                                    do{
+				                                        echo "<td>" . $result['tanggal'] . "</td><td>";
+				                                        echo $result['type'] . "</td><td>";
+				                                        echo $result['nama_dosen'] . "</td></tr>";
+				                                    } while($result = $stmt->fetch(PDO::FETCH_ASSOC));
+				                                }
+                           					?>
+                           			</tbody>
+                           		</table>
+                           	</div>
                         </div>
                     </div>
                      <!--End Bar Chart -->

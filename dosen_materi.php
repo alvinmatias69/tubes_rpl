@@ -5,6 +5,32 @@
     <?php
         include 'cek_login.php';
         $error = "";
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            include 'database.php';
+            $target_file = "materi/" . $_SESSION['id_dosen'] . date('Y-m-d') . basename($_FILES["file_materi"]["type"]);
+            $type = pathinfo($target_file,PATHINFO_EXTENSION);
+            if ($type != "pdf" && $type != "docx" && $type != "pptx") {
+                $error = "File yang diupload harus berekstensi .pdf, .docx, atau .pptx";
+            } else{
+                if (move_uploaded_file($_FILES["file_materi"]["tmp_name"],$target_file)) {
+                    $data = array(
+                        'tanggal'       => date('Y-m-d'), 
+                        'link_materi'   => $target_file,
+                        'id_dosen'      => $_SESSION['id_dosen']
+                    );
+                    try{
+	                    $sql = "insert into Materi(tanggal, link_materi, id_dosen) values('" . $data['tanggal'] . "', '" . $data['link_materi'] . "', '" . $data['id_dosen'] . "');";
+	                    $conn->exec($sql);
+	                    $error = "input sukses";  
+	                } catch(PDOException $e){
+	                	$error = "upload gagal";
+	                }
+                } else{
+                    $error = "upload gagal";
+                }
+                
+            }
+        }
     ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,10 +110,10 @@
                     <li>
                         <a href="dosen_jadwal.php"><i class="fa fa-calendar fa-fw"></i>Jadwal</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="#"><i class="fa fa-upload fa-fw"></i>Upload<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>
+                            <li class="selected">
                                 <a href="dosen_materi.php">Upload Materi</a>
                             </li>
                             <li>
@@ -109,7 +135,7 @@
                     <li>
                         <a href="list_mahasiswa.php"><i class="fa fa-list-ul fa-fw"></i>List Mahasiswa</a>
                     </li>
-                    <li class="selected">
+                    <li>
                         <a href="list_kehadiran.php"><i class="fa fa-list-alt fa-fw"></i>Kehadiran Mahasiswa</a>
                     </li>
                 </ul>
@@ -123,68 +149,48 @@
             <div class="row">
                 <!-- page header-->
                 <div class="col-lg-12">
-                    <h1 class="page-header">Kehadiran</h1>
+                    <h1 class="page-header">Upload Materi</h1>
                 </div>
                  <!-- end page header-->
                  <div class="row">
-                    <!--End Moving Line Chart -->
                 <!-- </div> -->
                 <div class="col-lg-12">
-                    <!-- Bar Chart -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Daftar hadir mahasiswa
+                            Materi yang diupload harus berekstensi .pdf, .docx, atau .pptx
                         </div>
                         <div class="panel-body">
-                        	<div class="row">
-                        		<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" role="form">
-	                        		<div class="form-group">
-	                        			<div class="col-md-1">
-	                        				<label>Tanggal</label>	
-	                        			</div>
-	                        			<div class="col-md-3">
-	                        				<input type="date" name="tanggal" required="" class="form-control">	
-	                        			</div>
-	                        			<div class="col-md-3">
-	                        				<input type="submit" value="cek" class="btn btn-outline btn-primary">
-	                        			</div>
-	                        		</div>
-							    </form>
-                        	</div>
-                        	<div class="row panel-body">
-                        		<div class="table-responsive">
-	                        		<table class="table table-striped table-bordered table-hover" id="table-materi">
-	                        			<thead>
-	                        				<tr>
-	                        					<th>Tanggal</th>
-	                        					<th>ID Mahasiswa</th>
-	                        					<th>Nama</th>
-	                        				</tr>
-	                        			</thead>
-	                        			<tbody>
-										    <?php
-										        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-										            include 'database.php';
-										            $sql = "select distinct tanggal, id_mhs, nama_mhs from Kehadiran join Mahasiswa using (id_mhs) where tanggal = '" . $_POST['tanggal'] . "' and id_dosen_wali = '" . $_SESSION['id_dosen'] . "';";
-										            $stmt = $conn->prepare($sql);
-										            $stmt->execute();
-										            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-										            if (! $result) {
-										                echo "<td colspan='3'>Data kosong<br></td>";
-										            } else {
-										                do{
-										                    echo "<tr><td>" . $result['tanggal'] . "</td><td>";
-										                    echo $result['id_mhs'] . "</td><td>";
-										                    echo $result['nama_mhs'] . "</td></tr>";
-										                } while($result = $stmt->fetch(PDO::FETCH_ASSOC));
-										            }
-										            
-										        }
-										    ?>
-	                        			</tbody>
-	                        		</table>
-	                        	</div>
-                        	</div>
+                        	<?php
+                        		if($error != ""){
+                                    if ($error == "input sukses") {
+                                        $tipe = "alert-success";
+                                        $str = "Sukses!";
+                                        $msg = " Jawaban berhasil diupload";
+                                    } else if($error == "upload gagal"){
+                                        $tipe = "alert-danger";
+                                        $str = "Gagal!";
+                                        $msg = " Anda sudah mengunggah tugas ini sebelumnya";
+                                    } else{
+                                        $tipe = "alert-danger";
+                                        $str = "Gagal!";
+                                        $msg = " File yang diupload harus berekstensi .zip atau .rar";
+                                    }
+                                    echo '
+                                        <div class="col-lg-12">
+	                                        <div class="alert ' . $tipe . ' fade in">
+    			                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                		                        <strong>' . $str . '</strong>' . $msg . ' 
+                                            </div>
+                                        </div> ';
+                                }
+                        	?>
+                        	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
+                                <label>File Materi</label>
+                        		<input type="file" name="file_materi" placeholder="link materi" required class="btn btn-outline btn-default"><br>
+                        		<button type="submit" class="btn btn-outline btn-primary"><i class="fa fa-upload"></i> Upload Materi</button>
+                        		<!-- <input type="file" name="file_materi" required><br> -->
+						        <!-- <input type="submit" value="input"> -->
+						    </form>
                         </div>
                     </div>
                      <!--End Bar Chart -->

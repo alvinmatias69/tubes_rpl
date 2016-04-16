@@ -43,10 +43,8 @@ create table if not exists Materi(
 
 create table if not exists Jadwal(
 	tanggal date default null,
-	id_materi int(10) not null, 
-	id_mhs int(10) not null,
-	constraint fk_Jadwal_1 foreign key(id_materi) references Materi(id_materi) on delete cascade,
-	constraint fk_Jadwal_2 foreign key(id_mhs) references Mahasiswa(id_mhs) on delete cascade
+	id_materi int(10) not null,
+	constraint fk_Jadwal_1 foreign key(id_materi) references Materi(id_materi) on delete cascade
 );
 
 create table if not exists Soal(
@@ -72,7 +70,7 @@ create table if not exists Assignment(
 );
 
 create table if not exists Admin(
-	id_admin char(5) not null,
+	id_admin int(5) not null,
 	password varchar(50) not null,
 	constraint pk_Admin primary key(id_admin)
 );
